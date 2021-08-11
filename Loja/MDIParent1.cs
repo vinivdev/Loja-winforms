@@ -113,5 +113,21 @@ namespace Loja
         {
 
         }
+
+        private void Cadastro_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void usuáriosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*Chamada do Form Cadastro_usuario no formato de MDI,
+             * ou seja para abrir dentro do Form Principal (MDI)
+             * Chama-se janela Filha. (CHildForm), fica dentro da janela Mãe
+             */
+            Form childForm = new Cadastro_usuario();
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
     }
 }
