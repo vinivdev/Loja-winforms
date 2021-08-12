@@ -72,6 +72,12 @@ namespace Loja
 
         private void Cadastro_usuario_Load(object sender, EventArgs e)
         {
+            carregaGrid();
+
+        }
+
+        private void carregaGrid()
+        {
             try
             {
                 IList<usuario_DTO> listUsuario_DTO = new List<usuario_DTO>();
@@ -196,6 +202,9 @@ namespace Loja
                     {
                         MessageBox.Show("Gravado com Sucesso!");
                     }
+
+                    /*Recarrega o Grid */
+                    carregaGrid();
                 }
 
                 catch (Exception ex)
@@ -205,6 +214,11 @@ namespace Loja
             }
 
             modo = "";
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            modo = "altera";
         }
     }
     
