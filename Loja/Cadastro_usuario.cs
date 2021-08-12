@@ -14,6 +14,7 @@ namespace Loja
 {
     public partial class Cadastro_usuario : Form
     {
+        string modo = "";
         public Cadastro_usuario()
         {
             InitializeComponent();
@@ -127,6 +128,84 @@ namespace Loja
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            /*Chamando Método Limpar Campos que foi criado*/
+            limpar_campos();
+
+            /*inserindo data atual automaticamente no txtCadastro*/
+            txtCadastro.Text = Convert.ToString(System.DateTime.Now);
+
+            /*após clicar no botão NOVO, modo passa a ser novo (incluindo um registro)*/
+            modo = "novo";
+        }
+
+        /*Criando Método Limpar Campos, para que todas as vezes em
+         que for necessário limpar nao será necessário repetir o 
+         código, apenas chamar o método
+        */
+        private void limpar_campos()
+        {
+            txtNome.Text = "";
+            txtLogin.Text = "";
+            txtEmail.Text = "";
+            txtSenha.Text = "";
+            txtCadastro.Text = "";
+            cboPerfil.Text = "";
+            cboSituacao.Text = "";
+        }
+
+        private void btnConfirmar_Click(object sender, EventArgs e)
+        {
+            if (modo == "novo")
+            {
+                /*Tratamento de Erros, exibe msg*/
+                try
+                {
+                    /*Objeto USU*/
+                    usuario_DTO USU = new usuario_DTO();
+                    USU.nome = txtNome.Text;
+                    USU.login = txtLogin.Text;
+                    USU.email = txtEmail.Text;
+                    USU.cadastro = System.DateTime.Now;
+                    USU.senha = txtSenha.Text;
+                    if (cboSituacao.Text == "Ativo")
+                    {
+                        USU.situacao = "A";
+                    }
+                    else
+                    {
+                        USU.situacao = "I";
+                    }
+                    switch (cboPerfil.Text)
+                    {
+                        case "Administrador":
+                            USU.perfil = 1;
+                            break;
+                        case "Operador":
+                            USU.perfil = 2;
+                            break;
+                        case "Gerencial":
+                            USU.perfil = 3;
+                            break;
+                    }
+
+                    /*Método insere usuário na classe UsuarioBLL*/
+                    int x = new UsuarioBLL().insereUsuario(USU);
+                    if (x > 0)
+                    {
+                        MessageBox.Show("Gravado com Sucesso!");
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro inesperado" + ex.Message);
+                }
+            }
+
+            modo = "";
+        }
     }
     
 }
